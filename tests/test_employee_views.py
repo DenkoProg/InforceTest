@@ -39,7 +39,7 @@ def test_employee_list_create(api_client, sample_data):
     api_client.force_authenticate(user=sample_data['user'])
 
     # Test GET
-    response = api_client.get('/employees/')
+    response = api_client.get('/api/v1/employees/')
     assert response.status_code == 200
     assert len(response.data) == 1
 
@@ -49,7 +49,7 @@ def test_employee_list_create(api_client, sample_data):
 
     # Test POST
     data = {"user": new_user.id, "employee_id": "E67890", "department": "AI"}
-    response = api_client.post('/employees/', data=data)
+    response = api_client.post('/api/v1/employees/', data=data)
     assert response.status_code == 201
     assert Employee.objects.count() == 2
 
@@ -59,21 +59,21 @@ def test_employee_retrieve_update_destroy(api_client, sample_data):
     api_client.force_authenticate(user=sample_data['user'])
 
     # Test GET (Retrieve)
-    response = api_client.get(f'/employees/{sample_data["employee"].id}/')
+    response = api_client.get(f'/api/v1/employees/{sample_data["employee"].id}/')
     assert response.status_code == 200
     assert response.data['employee_id'] == "E12345"
 
     # Test PUT (Update)
     data = {"user": sample_data['user'].id, "employee_id": "E54321"}
     response = api_client.put(
-        f'/employees/{sample_data["employee"].id}/',
+        f'/api/v1/employees/{sample_data["employee"].id}/',
         data=data)
     assert response.status_code == 200
     updated_employee = Employee.objects.get(id=sample_data['employee'].id)
     assert updated_employee.employee_id == "E54321"
 
     # Test DELETE
-    response = api_client.delete(f'/employees/{sample_data["employee"].id}/')
+    response = api_client.delete(f'/api/v1/employees/{sample_data["employee"].id}/')
     assert response.status_code == 204
     assert Employee.objects.count() == 0
 
@@ -85,7 +85,7 @@ def test_vote_create(api_client, sample_data):
     # Test POST
     data = {"menu": sample_data['menu'].id,
             "employee": sample_data['employee'].id}
-    response = api_client.post('/employees/vote/', data=data)
+    response = api_client.post('/api/v1/employees/vote/', data=data)
     print(response.data)
     assert response.status_code == 201
     assert Vote.objects.count() == 1

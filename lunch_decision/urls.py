@@ -4,6 +4,8 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+app_name = 'lunch_decision'
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Your API",
@@ -18,10 +20,10 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+
+    path('api/v1/', include('lunch_decision.urls_v1', namespace='v1')),
+    path('api/v2/', include('lunch_decision.urls_v2', namespace='v2')),
     path('admin/', admin.site.urls),
-    path('auth/', include('authentication.urls')),
-    path('restaurants/', include('restaurant.urls')),
-    path('employees/', include('employee.urls')),
 
 
     # Swagger URLs

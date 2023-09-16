@@ -14,12 +14,16 @@ class LoginView(APIView):
         return self.serializer_class(*args, **kwargs)
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response({
-            'refresh': serializer.validated_data['refresh'],
-            'access': serializer.validated_data['access'],
-        })
+        if request.version == 'v1':
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            return Response({
+                'refresh': serializer.validated_data['refresh'],
+                'access': serializer.validated_data['access'],
+            })
+        elif request.version == 'v2':
+            pass
+        # logic for version 2
 
 
 class RegisterView(CreateAPIView):

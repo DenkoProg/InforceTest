@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 
 @pytest.mark.django_db
 def test_register_user(client):
-    # Assuming the name of the URL pattern for RegisterView is 'register'
-    url = reverse('register')
+    # Including the version namespace in the reverse function
+    url = reverse('v1:register')
     data = {
         'username': 'testuser',
         'password': 'testpassword123'
@@ -25,8 +25,8 @@ def test_login_user(client):
     user = User.objects.create_user(
         username='testuser',
         password='testpassword123')
-    # Assuming the name of the URL pattern for LoginView is 'login'
-    url = reverse('login')
+    # Including the version namespace in the reverse function
+    url = reverse('v1:login')
     data = {
         'username': 'testuser',
         'password': 'testpassword123'
